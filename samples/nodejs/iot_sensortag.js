@@ -47,6 +47,8 @@ var password;
 var username;
 
 
+
+
 // LED functions
 // run asynchronously, callbacks just trap unexpected errors
 function ledWrite(extra, content, callback) {
@@ -324,6 +326,13 @@ SensorTag.discover(function(sensorTag) {
 						ambientTemperature) {
 					tagData.d.objectTemp = parseFloat(objectTemperature.toFixed(1));
 					tagData.d.ambientTemp = parseFloat(ambientTemperature.toFixed(1));
+					
+					console.log('objectTemp: ' + tagData.d.objectTemp );
+					fs.appendFile('data.txt', 'objectTemp: ' + tagData.d.objectTemp + "\n" , function (err) {
+					});
+					console.log('ambientTemp: ' + tagData.d.ambientTemp );
+					fs.appendFile('data.txt', 'ambientTemp: ' + tagData.d.ambientTemp + "\n" , function (err) {
+					});
 				});
 
 				sensorTag.notifyIrTemperature(function() {
@@ -336,6 +345,16 @@ SensorTag.discover(function(sensorTag) {
 					tagData.d.accelX = parseFloat(x.toFixed(1));
 					tagData.d.accelY = parseFloat(y.toFixed(1));
 					tagData.d.accelZ = parseFloat(z.toFixed(1));
+					
+					console.log('accelX: ' + tagData.d.accelX );
+					fs.appendFile('data.txt', 'accelX: ' + tagData.d.accelX + "\n" , function (err) {
+					});
+					console.log('accelY: ' + tagData.d.accelY );
+					fs.appendFile('data.txt', 'accelY: ' + tagData.d.accelY + "\n" , function (err) {
+					});
+					console.log('accelZ: ' + tagData.d.accelZ );
+					fs.appendFile('data.txt', 'accelZ: ' + tagData.d.accelZ + "\n" , function (err) {
+					});
 				});
 
 				sensorTag.notifyAccelerometer(function() {
@@ -347,6 +366,14 @@ SensorTag.discover(function(sensorTag) {
 				sensorTag.on('humidityChange', function(temperature, humidity) {
 					tagData.d.humidity = parseFloat(humidity.toFixed(1));
 					tagData.d.temp = parseFloat(temperature.toFixed(1));
+					console.log('humidity: ' + tagData.d.humidity);
+					fs.appendFile('data.txt', "humidity: " + tagData.d.humidity + "\n", function (err) {
+					});
+					console.log('temp: ' + tagData.d.temp);
+					fs.appendFile('data.txt', "temp: " + tagData.d.temp + "\n", function (err) {
+					});
+
+
 				});
 
 				sensorTag.notifyHumidity(function() {
@@ -356,9 +383,30 @@ SensorTag.discover(function(sensorTag) {
 				callback();
 			}, function(callback) {
 				sensorTag.on('magnetometerChange', function(x, y, z) {
+					
+					var date = new Date();
+					var date2 = new Date();
+					
+					date2.setHours(date.getHours() - 5);
+					
+					console.log('Date: ' + date2 );
+					fs.appendFile('data.txt', 'Date: ' + date2 + "\n" , function (err) {
+					});
+					
+					
 					tagData.d.magX = parseFloat(x.toFixed(1));
 					tagData.d.magY = parseFloat(y.toFixed(1));
 					tagData.d.magZ = parseFloat(z.toFixed(1));
+					
+					console.log('magX: ' + tagData.d.magX );
+					fs.appendFile('data.txt', 'magX: ' + tagData.d.magX + "\n" , function (err) {
+					});
+					console.log('magY: ' + tagData.d.magY );
+					fs.appendFile('data.txt', 'magY: ' + tagData.d.magY + "\n" , function (err) {
+					});
+					console.log('magZ: ' + tagData.d.magZ );
+					fs.appendFile('data.txt', 'magZ: ' + tagData.d.magZ + "\n" , function (err) {
+					});
 				});
 
 				sensorTag.notifyMagnetometer(function() {
@@ -369,6 +417,9 @@ SensorTag.discover(function(sensorTag) {
 			}, function(callback) {
 				sensorTag.on('barometricPressureChange', function(pressure) {
 					tagData.d.pressure = parseFloat(pressure.toFixed(1));
+					console.log('pressure: ' + tagData.d.pressure );
+					fs.appendFile('data.txt', 'pressure: ' + tagData.d.pressure + "\n" , function (err) {
+					});
 				});
 
 				sensorTag.notifyBarometricPressure(function() {
@@ -383,6 +434,20 @@ SensorTag.discover(function(sensorTag) {
 					tagData.d.gyroX = parseFloat(x.toFixed(1));
 					tagData.d.gyroY = parseFloat(y.toFixed(1));
 					tagData.d.gyroZ = parseFloat(z.toFixed(1));
+					
+					console.log('gyroX: ' + tagData.d.gyroX );
+					fs.appendFile('data.txt', 'gyroX: ' + tagData.d.gyroX + "\n" , function (err) {
+					});
+					console.log('gyroY: ' + tagData.d.gyroY );
+					fs.appendFile('data.txt', 'gyroY: ' + tagData.d.gyroY + "\n" , function (err) {
+					});
+					console.log('gyroZ: ' + tagData.d.gyroZ );
+					fs.appendFile('data.txt', 'gyroZ: ' + tagData.d.gyroZ + "\n" , function (err) {
+					});
+					
+					console.log(' ' );
+					fs.appendFile('data.txt', "\n" , function (err) {
+					});
 				});
 
 				sensorTag.notifyGyroscope(function() {
@@ -394,6 +459,12 @@ SensorTag.discover(function(sensorTag) {
 			function(callback) {
 				sensorTag.on('simpleKeyChange', function(left, right) {
 					//console.log('keys left: ' + left + '  right: ' + right);
+					tagData.d.leftKey = left;
+					tagData.d.rightkey = right;
+					fs.appendFile('data.txt', 'leftKey: ' + tagData.d.leftKey + "\n" , function (err) {
+					});
+					fs.appendFile('data.txt', 'rightkey: ' + tagData.d.rightkey + "\n" , function (err) {
+					});
 
 					if (left && right) {
 						sensorTag.notifySimpleKey(callback);
